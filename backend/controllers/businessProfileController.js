@@ -106,10 +106,21 @@ export async function getMyBusinessProfile(req, res) {
         }
         const profile = await BusinessProfile.findOne({owner: userId}).lean();
         if(!profile){
-            
+            return res.status(204).json({
+                sucess:true,
+                message :"no profile found"
+            })
+
+
         }
+        return res.status(200).json({success :true,data:profile});
+
 
     }catch(error){
+
+        console.error("Error in getMyBusinessProfile:", error);
+        return res.status(500).json({success: false, message: "Internal Server Error"});
+
 
     }
 
