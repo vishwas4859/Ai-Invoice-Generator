@@ -3,6 +3,7 @@ import multer from 'multer';
 import path from 'path';
 
 import { clerkMiddleware } from '@clerk/express';
+import { createBusinessProfile, updateBusinessProfile } from '../controllers/businessProfileController.js';
 
 const businessProfileRouter  = express.Router();
 
@@ -15,5 +16,38 @@ const storage = multer.diskStorage({
         cb(null,path.join(process.cwd),"uploads");
 
     },
-    filename
-})
+    filename:(req,file,cb)=>{
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const ext = path.extname(file.originalname);
+        cb(null,'business-${unique}${ext}');
+
+
+    },
+
+});
+const upload = multer({storage});
+
+//create
+businessProfileRouter.post(
+    '/',
+    upload.fields([
+        { name: 'logoName', maxCount: 1 },
+        { name: 'stampName', maxCount: 1 },
+        { name: 'signatureNameMeta', maxCount: 1 },
+    ]),
+    createBusinessProfile
+)
+
+//to update the business profile
+businessProfileRouter.put(
+    '/:id',
+    upload.fields([
+        { name: 'logoName', maxCount: 1 },
+        { name: 'stampName', maxCount: 1 },
+        { name: 'signatureNameMeta', maxCount: 1 },
+    ]),
+    updateBusinessProfile
+);
+
+// businessProfileRouter.get('/me', getBusinessProfile);
+export default businessProfileRouter;

@@ -8,7 +8,7 @@ const businessProfileSchema = new mongoose.Schema({
     phone:{type: String, required: false, trim : true, default: ""},
     gst:{type: String, required: false, trim : true, default: ""},
     //for images
-    logoUrl:{type: String, required: false, trim : true, default: nulll},
+    logoUrl:{type: String, required: false, trim : true, default: null},
     stampUrl:{type: String, required: false, trim : true, default: null},
     signatureUrl:{type: String, required: false, trim : true, default: null},
 
