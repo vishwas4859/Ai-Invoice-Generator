@@ -6,7 +6,7 @@ dotenv.config();
 
 const aiinvoiceRouter = express.Router();
 
-const API_KEY =process.env.AIzaSyAYl0tiYY33OMOp3S-svZE9k2lok4_j4Aw;
+const API_KEY = process.env.GEMINI_API_KEY;
 if (!API_KEY) {
     console.error("Error: GEMINI_API_KEY is not set in the environment variables.");
 
@@ -106,52 +106,6 @@ async function tryGenerateWithModel(modelName, prompt) {
   }
   return { text: String(text).trim(), modelName };
 }
-
-
-      let lastErr = null;
-    let lastText = null;
-    let usedModel = null;
-
-    for (const m of MODEL_CANDIDATES) {
-      try {
-        const { text, modelName } = await tryGenerateWithModel(m, fullPrompt);
-        lastText = text;
-        usedModel = modelName;
-        if (text && text.trim()) break;
-      } catch (err) {
-        console.warn(`Model ${m} failed:`, err?.message || err);
-        lastErr = err;
-        continue;
-      }
-    }
-
-    if (!lastText) {
-      const errMsg =
-        (lastErr && lastErr.message) ||
-        "All candidate models failed. Check API key, network, or model availability.";
-      console.error("AI generation failed (no text):", errMsg);
-      return res.status(502).json({
-        success: false,
-        message: "AI generation failed",
-        detail: errMsg
-      });
-    }
-
-    const text = lastText.trim();
-    const firstBrace = text.indexOf("{");
-    const lastBrace = text.lastIndexOf("}");
-    if (firstBrace === -1 || lastBrace === -1 || lastBrace <= firstBrace) {
-      console.error("AI response did not contain JSON object:", {
-        usedModel,
-        text
-      });
-      return res.status(502).json({
-        success: false,
-        message: "AI returned malformed response (no JSON found)",
-        raw: text,
-        model: usedModel
-      });
-    }
 aiinvoiceRouter.post('/generate', async (req, res) => {
 try {
     if(!API_KEY){
@@ -210,12 +164,28 @@ try {
     const jsonText = text.slice(firstBrace, lastBrace+1);
     let data;
     try{
-        data 
-    }catch(err){
+      data = JSON.parse(jsonText);
 
+
+    }catch(parseErr){
+      console.error("Failed to parse AI response as JSON:",parseErr);
+      return res.status(502).json({
+        success: false,
+        message: "AI returned malformed response (failed to parse JSON)",
+        raw: text,
+        model: usedModel,
+       
+      });
     }
+    
+    return res.status(200).json({success: true, data, model: usedModel});
 
 }
 catch(error){
+  console.error("Error in AI-invoice generation :", error);
+  return res.status(500).json({success: false, message: "AI generation failed", detail: error.message || String(error)});
+
 }
-})
+
+});
+export default aiinvoiceRouter;

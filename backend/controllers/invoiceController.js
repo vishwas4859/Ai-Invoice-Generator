@@ -388,7 +388,9 @@ export async function deleteInvoice(req, res) {
         await Invoice.deleteOne({ _id: found._id });
         return res.status(200).json({ success: true, message: "Invoice deleted successfully" });
 
+
     }
+
     catch(error){
          console.error("Error deleting invoice:", error);
         return res.status(500).json({ success: false, message: "Failed to delete invoice" });
