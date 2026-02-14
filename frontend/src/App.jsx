@@ -1,14 +1,14 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
+import Dashboard from './pages/Dashboard'
 import { RedirectToSignIn, SignedIn, SignedOut } from '@clerk/clerk-react'
 import AppShell from './components/AppShell'
-import Dashboard from './pages/Dashboard'
-import CreateInvoice from './pages/CreateInvoice'
-import InvoicesPage from './pages/Invoices'
-import InvoicePreview from './components/InvoicePreview'
-import BusinessProfile from './pages/BusinessProfile'
-import Notfound from './pages/Notfound'
+// import CreateInvoice from './pages/CreateInvoice'
+// import InvoicesPage from './pages/Invoices'
+// import InvoicePreview from './components/InvoicePreview'
+// import BusinessProfile from './pages/BusinessProfile'
+// import Notfound from './pages/Notfound'
 
 const ClerkProtected = ({ children }) => (
   <>
@@ -35,17 +35,17 @@ const App = () => {
         >
           <Route index element={<Dashboard />} />
           <Route path='dashboard' element={<Dashboard />} />
-          <Route path='invoices' element={<InvoicesPage />} />
+          {/* <Route path='invoices' element={<InvoicesPage />} />
           <Route path='invoices/new' element={<CreateInvoice />} />
           <Route path='invoices/:id' element={<InvoicePreview />} />
           <Route path='invoices/:id/preview' element={<InvoicePreview />} />
           <Route path='invoices/:id/edit' element={<CreateInvoice />} />
 
           <Route path='create-invoice' element={<CreateInvoice />} />
-          <Route path='business' element={<BusinessProfile />} />
+          <Route path='business' element={<BusinessProfile />} /> */}
         </Route>
 
-        <Route path='*' element={<Notfound />} />
+        {/* <Route path='*' element={<Notfound />} /> */}
       </Routes>
     </div>
   )
