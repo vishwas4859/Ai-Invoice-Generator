@@ -163,7 +163,7 @@ const Pricing = () => {
     monthly: [
       {
         title: "Starter",
-        price: "RM0",
+        price: "Rs0",
         period: "month",
         description: "Perfect for freelancers and small projects",
         features: [
@@ -177,7 +177,7 @@ const Pricing = () => {
       },
       {
         title: "Professional",
-        price: "RM499",
+        price: "Rs499",
         period: "month",
         description: "For growing businesses and agencies",
         features: [
@@ -193,7 +193,7 @@ const Pricing = () => {
       },
       {
         title: "Enterprise",
-        price: "RM1,499",
+        price: "Rs1,499",
         period: "month",
         description: "For large organizations with custom needs",
         features: [
