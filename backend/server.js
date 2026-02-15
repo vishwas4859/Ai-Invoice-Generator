@@ -14,7 +14,7 @@ const port = process.env.PORT || 4000;
 
 // MIDDLEWARES
 app.use(cors({
-  origin: true,
+  origin: 'https://ai-invoice-generator-gilt.vercel.app',
   credentials: true
 }));
 app.use(clerkMiddleware())
