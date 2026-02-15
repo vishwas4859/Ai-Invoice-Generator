@@ -9,11 +9,12 @@ import businessProfileRouter from './routes/businessProfileRouter.js'
 import aiInvoiceRouter from './routes/aiInvoiceRouter.js'
 
 const app = express()
-const port = 4000
+const port = process.env.PORT || 4000;
+
 
 // MIDDLEWARES
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    origin: ['http://localhost:5173', 'http://localhost:5174','https://ai-invoice-generator.vercel.app'],
     credentials: true
 }))
 app.use(clerkMiddleware())
